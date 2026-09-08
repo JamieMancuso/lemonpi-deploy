@@ -26,8 +26,12 @@ echo "81e287c476a4f2b1298df615f31142e3  /tmp/lemonpi_code.tar.gz" | md5sum -c -
 tar xzf /tmp/lemonpi_code.tar.gz -C "$APPDIR"
 echo "Code updated."
 
-echo "Fetching assets bundle (plant turntable images)..."
-curl -fsSL "$REPO_RAW/assets.b64" | base64 -d > /tmp/lemonpi_assets.tar.gz
+echo "Fetching assets bundle (plant turntable images, 6 parts)..."
+rm -f /tmp/lemonpi_assets.b64
+for i in 1 2 3 4 5 6; do
+  curl -fsSL "$REPO_RAW/assets_part${i}.b64" >> /tmp/lemonpi_assets.b64
+done
+base64 -d /tmp/lemonpi_assets.b64 > /tmp/lemonpi_assets.tar.gz
 echo "a889a57c079848aa55186940a02e125b  /tmp/lemonpi_assets.tar.gz" | md5sum -c -
 tar xzf /tmp/lemonpi_assets.tar.gz -C "$APPDIR"
 echo "Assets updated."
